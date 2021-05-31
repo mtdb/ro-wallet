@@ -1,0 +1,36 @@
+.container {
+  flex: 1;
+  background-color: #c3c3c3;
+  padding: 10px 20px 20px 10px;
+  position: relative;
+}
+
+.editor {
+  border: none;
+  font-family: monospace;
+  height: 100%;
+  line-height: 1.4;
+  margin: 0;
+  padding: 10px 0 0 10px;
+  resize: none;
+  width: 100%;
+}
+
+.save-btn {
+  background-color: #516ecd;
+  border: none;
+  bottom: 20px;
+  color: white;
+  font-size: 19px;
+  font-weight: 100;
+  padding: 9px 28px;
+  position: absolute;
+  right: 20px;
+  font-family: inherit;
+}
+
+@media screen and (max-width: 750px) {
+  .container {
+    display: none;
+  }
+}

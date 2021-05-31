@@ -1,26 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { Route } from "wouter";
+import "./App.css";
+import Wallet from "./components/Wallet";
+import { initialStore } from "./store";
 
-function App() {
+export const Context = React.createContext(initialStore);
+
+const App = () => {
+  const [wallets, setWallets] = useState(initialStore.wallets);
+  const [data, setData] = useState(initialStore.data);
+  const [btcPrice, setPrice] = useState(initialStore.btcPrice);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Context.Provider
+      value={{ wallets, setWallets, data, setData, btcPrice, setPrice }}
+    >
+      <Route path="/" component={Wallet} />
+    </Context.Provider>
   );
-}
+};
 
 export default App;
