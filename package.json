@@ -23,7 +23,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "sync-s3": "aws s3 sync build/ s3://yaml-wallet"
+    "sync-s3": "aws s3 sync build/ s3://yaml-wallet",
+    "deploy": "yarn run build && yarn run sync-s3"
   },
   "eslintConfig": {
     "extends": [
