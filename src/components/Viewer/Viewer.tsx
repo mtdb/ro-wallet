@@ -8,7 +8,7 @@ interface IBalance {
 
 const satToBTC = (x: number) => x / 100000000 + " BTC";
 
-const Viewer = () => {
+const Viewer = ({ loading }: { loading: boolean }) => {
   const { wallets, btcPrice } = useContext(Context);
   const [totalBalance, setTotal] = useState(0);
   const [walletBalance, setBalances] = useState({} as IBalance);
@@ -35,6 +35,7 @@ const Viewer = () => {
         <h1>code-wallet</h1>
         <h2>Total balance</h2>
         <span>{satToUSD(totalBalance)}</span>
+        {loading && <i className={styles.spinner} />}
       </div>
       <div className={styles.wallets}>
         <h2>Wallets</h2>

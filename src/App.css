@@ -3,8 +3,10 @@ body {
 }
 
 #Wallet {
+  align-items: stretch;
   display: flex;
-  max-width: 1200px;
+  flex-wrap: wrap;
+  height: 100vh;
   margin: 0 auto;
-  height: 500px;
+  max-width: 1200px;
 }
