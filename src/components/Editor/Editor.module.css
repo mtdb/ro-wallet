@@ -3,7 +3,8 @@
   min-height: 200px;
   padding: 10px 20px 20px 10px;
   position: relative;
-  width: calc(50% - 30px);;
+  width: calc(50% - 30px);
+  ;
 }
 
 .editor {
@@ -31,8 +32,27 @@
   cursor: pointer;
 }
 
+.expand-btn {
+  background-color: #516ecd;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 19px;
+  font-weight: 100;
+  padding: 9px 28px;
+  width: calc(100% + 10px);
+}
+
 @media screen and (max-width: 750px) {
   .container {
     width: 100%;
+  }
+  .editor {
+    height: calc(100% - 55px);
+  }
+  .save-btn {
+    bottom: 12px;
+    right: 12px;
   }
 }

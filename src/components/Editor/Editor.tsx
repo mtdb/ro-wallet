@@ -8,9 +8,12 @@ interface IEvent {
   };
 }
 
+const mobileWidth = 750;
+
 const Editor = () => {
   const { data, setData } = useContext(Context);
   const [editorData, updateEditor] = useState(data);
+  const [expanded, expand] = useState(window.innerWidth > mobileWidth);
 
   const onChange = ({ target: { value } }: IEvent) => {
     updateEditor(value);
@@ -19,7 +22,19 @@ const Editor = () => {
   const saveChanges = () => {
     localStorage.setItem("yamlFile", editorData);
     setData(editorData);
+    expand(false);
   };
+
+  const expandEditor = () => expand(true)
+
+  if (!expanded && window.innerWidth < mobileWidth)
+    return (
+      <div className={styles.container}>
+        <button onClick={expandEditor} className={styles["expand-btn"]}>
+          Edit
+        </button>
+      </div>
+    )
 
   return (
     <div className={styles.container}>

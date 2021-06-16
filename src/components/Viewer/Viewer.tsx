@@ -32,7 +32,7 @@ const Viewer = ({ loading }: { loading: boolean }) => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h1>code-wallet</h1>
+        <h1>plaintext-wallet</h1>
         <h2>Total balance</h2>
         <span>{satToUSD(totalBalance)}</span>
         {loading && <i className={styles.spinner} />}
