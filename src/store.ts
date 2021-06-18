@@ -17,6 +17,18 @@ const example = `Test account:
 Account 2:
 - 13HwKWsEpcQy9PAbcpzDqARfm2wEG7Lnfs`;
 
+export interface ITransaction {
+  status: {
+    block_time: number;
+  };
+  vout: {
+    scriptpubkey_address: string;
+    value: number;
+  }[];
+  txid: string;
+  value: number;
+}
+
 export const initialStore = {
   wallets: [] as IWallet[],
   setWallets: (() => {}) as Dispatch<SetStateAction<IWallet[]>>,

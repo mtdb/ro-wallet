@@ -16,6 +16,7 @@ const App = () => {
       value={{ wallets, setWallets, data, setData, btcPrice, setPrice }}
     >
       <Route path="/" component={Wallet} />
+      <Route path="/:slug" component={Wallet} />
     </Context.Provider>
   );
 };

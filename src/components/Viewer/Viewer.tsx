@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from "react";
-import styles from "./Viewer.module.css";
+import { Link } from "wouter";
 import { Context } from "../../App";
+import { slugify, satToBTC, satToUSD as s2u } from "../../utils";
+import styles from "./Viewer.module.css";
 
 interface IBalance {
   [key: string]: number;
 }
-
-const satToBTC = (x: number) => x / 100000000 + " BTC";
 
 const Viewer = ({ loading }: { loading: boolean }) => {
   const { wallets, btcPrice } = useContext(Context);
@@ -26,8 +26,7 @@ const Viewer = ({ loading }: { loading: boolean }) => {
     setBalances(balances);
   }, [wallets]);
 
-  const satToUSD = (x: number) =>
-    ((x / 100000000) * btcPrice).toLocaleString() + " USD";
+  const satToUSD = s2u(btcPrice);
 
   return (
     <div className={styles.container}>
@@ -41,11 +40,13 @@ const Viewer = ({ loading }: { loading: boolean }) => {
         <h2>Wallets</h2>
         <div className={styles["box-container"]}>
           {wallets.map(({ title }) => (
-            <div key={title} className={styles.box}>
-              <h3>{title}</h3>
-              <span>{satToBTC(walletBalance[title])}</span>
-              <small>≈ {satToUSD(walletBalance[title])}</small>
-            </div>
+            <Link key={title} href={`/${slugify(title)}`}>
+              <div className={styles.box}>
+                <h3>{title}</h3>
+                <span>{satToBTC(walletBalance[title])}</span>
+                <small>≈ {satToUSD(walletBalance[title])}</small>
+              </div>
+            </Link>
           ))}
         </div>
       </div>

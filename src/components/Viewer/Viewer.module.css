@@ -51,6 +51,7 @@
   width: calc(50% - 30px);
   padding: 10px;
   margin: 5px;
+  cursor: pointer;
 }
   
 .box h3 {

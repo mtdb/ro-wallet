@@ -1,11 +1,9 @@
-import { IWallet } from "./store";
+import { IWallet, ITransaction } from "./store";
 
 const api = {
   blockstream: {
     address: (a: string) => `https://blockstream.info/api/address/${a}`,
-  },
-  mempool: {
-    address: (a: string) => `https://mempool.space/api/address/${a}`,
+    txs: (a: string) => `https://blockstream.info/api/address/${a}/txs`,
   },
   binance: {
     avgPrice: (s: string) =>
@@ -37,6 +35,34 @@ const getWalletsData = async (data: any) => {
   return walletsData as IWallet[];
 };
 
+const getTransactionHistory = async (addresses: string[]) => {
+  const promises = [] as Promise<void>[];
+  let txs = [] as ITransaction[];
+  addresses.forEach((address) => {
+    promises.push(
+      (async () => {
+        // returns up to 50 mempool transactions plus the first 25 confirmed transactions
+        let response = await fetch(api.blockstream.txs(address));
+        const transactions = await response.json();
+        const t = transactions.map((transaction: ITransaction) => {
+          for (let q = 0; q < transaction.vout.length; q += 1) {
+            if (transaction.vout[q].scriptpubkey_address === address) {
+              return { ...transaction, value: transaction.vout[q].value };
+            }
+          }
+          return transaction;
+        });
+        txs = txs.concat(t);
+      })()
+    );
+  });
+  await Promise.all(promises);
+  return txs.sort(
+    (a: ITransaction, b: ITransaction) =>
+      a.status.block_time - b.status.block_time
+  );
+};
+
 const getBitcoinPrice = async () => {
   let response = await fetch(api.binance.avgPrice("BTCUSDT"));
   let json = await response.json();
@@ -45,7 +71,7 @@ const getBitcoinPrice = async () => {
 };
 
 const actions = {
-  wallets: { retrieve: getWalletsData },
+  wallets: { retrieve: getWalletsData, getTxs: getTransactionHistory },
   btcPrice: { get: getBitcoinPrice },
 };
 
