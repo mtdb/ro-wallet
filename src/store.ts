@@ -10,23 +10,35 @@ export interface IWallet {
   addresses: IAddress[];
 }
 
-const example = `Test account:
-- 1AJ3AzFCusdG7dyCX2H1fsCVfmA5bPs1fe
-- 1MQN9MFhg7rLFrw9anbEwTBY6PatVydzDi
+const example = `# Test account:
+1AJ3AzFCusdG7dyCX2H1fsCVfmA5bPs1fe
+1MQN9MFhg7rLFrw9anbEwTBY6PatVydzDi
 
-Account 2:
-- 13HwKWsEpcQy9PAbcpzDqARfm2wEG7Lnfs`;
+# Account 2:
+13HwKWsEpcQy9PAbcpzDqARfm2wEG7Lnfs`;
 
 export interface ITransaction {
   status: {
     block_time: number;
   };
+  vin: {
+    prevout: {
+      value: number;
+      scriptpubkey_address: string;
+    };
+  }[];
   vout: {
     scriptpubkey_address: string;
     value: number;
   }[];
   txid: string;
+}
+
+export interface IHistoricalTransaction {
+  txid: string;
   value: number;
+  balance: number;
+  blockTime: number;
 }
 
 export const initialStore = {

@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useLocation } from "wouter";
 import actions from "../../actions";
 import { Context } from "../../App";
-import { ITransaction } from "../../store";
+import { IHistoricalTransaction as ITransaction } from "../../store";
 import { satToBTC, satToUSD as s2u, slugify } from "../../utils";
 import styles from "./Details.module.css";
 
@@ -39,25 +39,29 @@ const Details = ({ slug }: { slug: string }) => {
     <div className={styles.container}>
       <div className={styles.header}>
         <Link href="/">
-          <h1>plaintext-wallet</h1>
+          <h1>wallet.md</h1>
         </Link>
         <h2>Wallet balance</h2>
         <span>{satToBTC(total)}</span>
-        <small>{satToUSD(total)}</small>
+        <small className={styles.usdAmount}>{satToUSD(total)}</small>
+        <Link href="/" className={styles.close}>+</Link>
       </div>
       <div className={styles.transactions}>
         <h2>Activity</h2>
         <ul>
-          {transactions.map(({ status, txid, value }) => (
+          {transactions.map(({ blockTime, txid, value, balance }) => (
             <li key={txid}>
               <div>
-                <span>[received]</span>
+                <span className={value > 0 ? styles.boxGreen : styles.boxRed}>
+                  {value > 0 ? "received" : "sent"}
+                </span>
                 <br />
-                <small title={moment(status.block_time * 1000).calendar()}>
-                  {moment(status.block_time * 1000).calendar()}
+                <small title={moment(blockTime * 1000).calendar()}>
+                  {moment(blockTime * 1000).calendar()}
                 </small>
               </div>
               <div>{satToBTC(value)}</div>
+              <div>{satToBTC(balance)}</div>
             </li>
           ))}
         </ul>

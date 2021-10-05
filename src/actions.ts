@@ -1,4 +1,7 @@
-import { IWallet, ITransaction } from "./store";
+import { IWallet, ITransaction, IHistoricalTransaction } from "./store";
+export interface IParsedData {
+  [title: string]: string[];
+}
 
 const api = {
   blockstream: {
@@ -11,7 +14,7 @@ const api = {
   },
 };
 
-const getWalletsData = async (data: any) => {
+const getWalletsData = async (data: IParsedData) => {
   const promises = [] as Promise<void>[];
   const values = {} as { [key: string]: number };
   Object.keys(data).forEach((key) => {
@@ -20,7 +23,8 @@ const getWalletsData = async (data: any) => {
         (async () => {
           let response = await fetch(api.blockstream.address(address));
           let json = await response.json();
-          values[address] = json.chain_stats.funded_txo_sum;
+          values[address] =
+            json.chain_stats.funded_txo_sum - json.chain_stats.spent_txo_sum;
         })()
       );
     });
@@ -37,30 +41,56 @@ const getWalletsData = async (data: any) => {
 
 const getTransactionHistory = async (addresses: string[]) => {
   const promises = [] as Promise<void>[];
-  let txs = [] as ITransaction[];
+  const txs = [] as IHistoricalTransaction[];
+  const myTxs = {} as { [key: string]: boolean };
+  const myAddresses = {} as { [key: string]: boolean };
+  let balance = 0;
+
+  addresses.forEach((address) => {
+    myAddresses[address] = true;
+  });
   addresses.forEach((address) => {
     promises.push(
       (async () => {
         // returns up to 50 mempool transactions plus the first 25 confirmed transactions
-        let response = await fetch(api.blockstream.txs(address));
+        const response = await fetch(api.blockstream.txs(address));
         const transactions = await response.json();
-        const t = transactions.map((transaction: ITransaction) => {
+
+        transactions.forEach((transaction: ITransaction) => {
+          if (!transaction.txid) return;
+
+          let value = 0;
           for (let q = 0; q < transaction.vout.length; q += 1) {
-            if (transaction.vout[q].scriptpubkey_address === address) {
-              return { ...transaction, value: transaction.vout[q].value };
-            }
+            if (myAddresses[transaction.vout[q].scriptpubkey_address])
+              value += transaction.vout[q].value;
           }
-          return transaction;
+          for (let q = 0; q < transaction.vin.length; q += 1) {
+            if (myAddresses[transaction.vin[q].prevout.scriptpubkey_address])
+              value -= transaction.vin[q].prevout.value;
+          }
+
+          if (!myTxs[transaction.txid]) {
+            myTxs[transaction.txid] = true;
+            txs.push({
+              txid: transaction.txid,
+              blockTime: transaction.status.block_time,
+              value,
+              balance: 0,
+            });
+          }
         });
-        txs = txs.concat(t);
       })()
     );
   });
   await Promise.all(promises);
-  return txs.sort(
-    (a: ITransaction, b: ITransaction) =>
-      a.status.block_time - b.status.block_time
-  );
+
+  return txs
+    .sort((a: any, b: any) => a.blockTime - b.blockTime)
+    .map((x: any) => {
+      balance += x.value;
+      return { ...x, balance };
+    })
+    .reverse();
 };
 
 const getBitcoinPrice = async () => {

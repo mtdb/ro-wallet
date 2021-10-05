@@ -4,6 +4,18 @@
   position: relative;
 }
 
+.close {
+  position: absolute;
+  top: 0;
+  right: 15px;
+  font-family: monospace;
+  font-size: 45px;
+  transform: rotate(45deg);
+  opacity: 0.8;
+  color: white;
+  text-decoration: none;
+}
+
 .header {
   padding: 20px;
   background-color: #516ecd;
@@ -26,6 +38,10 @@
   font-weight: 400;
   font-size: 22px;
   letter-spacing: -1px;
+}
+
+.usdAmount {
+  margin-left: 10px;
 }
 
 .transactions {
@@ -52,4 +68,28 @@
   margin: 15px 0 0 0;
   border-bottom: 1px solid #dcdcdc;
   padding-bottom: 10px;
+}
+
+.boxGreen {
+  border-radius: 2px;
+  border: green 1px solid;
+  color: green;
+  font-size: 0.8em;
+  line-height: 1;
+  padding: 0 5px;
+}
+
+.boxRed {
+  border-radius: 2px;
+  border: red 1px solid;
+  color: red;
+  font-size: 0.8em;
+  line-height: 1;
+  padding: 0 5px;
+}
+
+@media screen and (max-width: 750px) {
+  .container {
+    width: 100%;
+  }
 }
