@@ -20,7 +20,7 @@ const Editor = () => {
   };
 
   const saveChanges = () => {
-    localStorage.setItem("yamlFile", editorData);
+    localStorage.setItem("mdFile", editorData);
     setData(editorData);
     expand(false);
   };

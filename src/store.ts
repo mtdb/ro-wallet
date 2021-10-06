@@ -44,7 +44,7 @@ export interface IHistoricalTransaction {
 export const initialStore = {
   wallets: [] as IWallet[],
   setWallets: (() => {}) as Dispatch<SetStateAction<IWallet[]>>,
-  data: localStorage.getItem("yamlFile") || example,
+  data: localStorage.getItem("mdFile") || example,
   setData: (() => {}) as Dispatch<SetStateAction<string>>,
   btcPrice: localStorage.getItem("btcPrice")
     ? Number(localStorage.getItem("btcPrice"))
