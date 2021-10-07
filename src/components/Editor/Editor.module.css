@@ -17,7 +17,7 @@
   width: 100%;
 }
 
-.save-btn {
+.saveBtn {
   background-color: #516ecd;
   border: none;
   bottom: 20px;
@@ -31,7 +31,12 @@
   cursor: pointer;
 }
 
-.expand-btn {
+.saveBtn[disabled] {
+  opacity: 0.8;
+  cursor: wait;
+}
+
+.expandBtn {
   background-color: #516ecd;
   border: none;
   color: white;
@@ -50,7 +55,7 @@
   .editor {
     height: calc(100% - 55px);
   }
-  .save-btn {
+  .saveBtn {
     bottom: 12px;
     right: 12px;
   }

@@ -24,26 +24,27 @@ const parse = (data: string) => {
 };
 
 const Wallet = ({ params: { slug } }: { params: { slug?: string } }) => {
-  const { data, setWallets, setPrice } = useContext(Context);
+  const { data, wallets, setWallets, setPrice } = useContext(Context);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (slug) return;
     const parsedData = parse(data);
     setLoading(true);
     (async () => {
       const walletsData = await actions.wallets.retrieve(parsedData);
       const price = await actions.btcPrice.get();
       setPrice(price);
-      setWallets(walletsData);
+      if (JSON.stringify(wallets) !== JSON.stringify(walletsData))
+        // preventing re-rendering
+        setWallets(walletsData);
       setLoading(false);
     })();
-  }, [data, slug, setWallets, setPrice]);
+  }, [data, wallets, slug, setWallets, setPrice]);
 
   return (
     <div id="Wallet">
       {slug ? <Details slug={slug} /> : <Viewer loading={loading} />}
-      <Editor />
+      <Editor loading={loading} />
     </div>
   );
 };

@@ -88,6 +88,15 @@
   padding: 0 5px;
 }
 
+.activityList li div:nth-child(1) {
+  width: 30%;
+}
+
+.activityList li div:nth-child(2),
+.activityList li div:nth-child(3) {
+  width: 35%;
+}
+
 @media screen and (max-width: 750px) {
   .container {
     width: 100%;

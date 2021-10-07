@@ -10,7 +10,7 @@ interface IEvent {
 
 const mobileWidth = 750;
 
-const Editor = () => {
+const Editor = ({ loading }: { loading: boolean }) => {
   const { data, setData } = useContext(Context);
   const [editorData, updateEditor] = useState(data);
   const [expanded, expand] = useState(window.innerWidth > mobileWidth);
@@ -19,22 +19,22 @@ const Editor = () => {
     updateEditor(value);
   };
 
-  const saveChanges = () => {
+  const saveChanges = async () => {
     localStorage.setItem("mdFile", editorData);
     setData(editorData);
     expand(false);
   };
 
-  const expandEditor = () => expand(true)
+  const expandEditor = () => expand(true);
 
   if (!expanded && window.innerWidth < mobileWidth)
     return (
       <div className={styles.container}>
-        <button onClick={expandEditor} className={styles["expand-btn"]}>
+        <button onClick={expandEditor} className={styles.expandBtn}>
           Edit
         </button>
       </div>
-    )
+    );
 
   return (
     <div className={styles.container}>
@@ -44,7 +44,11 @@ const Editor = () => {
         onChange={onChange}
         spellCheck="false"
       />
-      <button onClick={saveChanges} className={styles["save-btn"]}>
+      <button
+        disabled={loading}
+        onClick={saveChanges}
+        className={styles.saveBtn}
+      >
         Save
       </button>
     </div>

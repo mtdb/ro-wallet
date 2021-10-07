@@ -19,6 +19,7 @@ const example = `# Test account:
 
 export interface ITransaction {
   status: {
+    confirmed: boolean;
     block_time: number;
   };
   vin: {
@@ -36,9 +37,10 @@ export interface ITransaction {
 
 export interface IHistoricalTransaction {
   txid: string;
-  value: number;
   balance: number;
   blockTime: number;
+  confirmed: boolean;
+  value: number;
 }
 
 export const initialStore = {

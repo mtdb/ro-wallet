@@ -14,6 +14,7 @@ const Details = ({ slug }: { slug: string }) => {
   const { wallets, btcPrice } = useContext(Context);
   const [transactions, setTransactions] = useState([] as ITransaction[]);
   const [total, setTotal] = useState(0);
+  const [title, setTitle] = useState("");
 
   const setLocation = useLocation()[1];
 
@@ -24,6 +25,7 @@ const Details = ({ slug }: { slug: string }) => {
       return;
     }
 
+    setTitle(wallet.title);
     (async () => {
       const txs = await actions.wallets.getTxs(
         wallet.addresses.map((x) => x.address)
@@ -41,14 +43,16 @@ const Details = ({ slug }: { slug: string }) => {
         <Link href="/">
           <h1>wallet.md</h1>
         </Link>
-        <h2>Wallet balance</h2>
+        <h2>{title}</h2>
         <span>{satToBTC(total)}</span>
         <small className={styles.usdAmount}>{satToUSD(total)}</small>
-        <Link href="/" className={styles.close}>+</Link>
+        <Link href="/" className={styles.close}>
+          +
+        </Link>
       </div>
       <div className={styles.transactions}>
         <h2>Activity</h2>
-        <ul>
+        <ul className={styles.activityList}>
           {transactions.map(({ blockTime, txid, value, balance }) => (
             <li key={txid}>
               <div>
@@ -56,8 +60,8 @@ const Details = ({ slug }: { slug: string }) => {
                   {value > 0 ? "received" : "sent"}
                 </span>
                 <br />
-                <small title={moment(blockTime * 1000).calendar()}>
-                  {moment(blockTime * 1000).calendar()}
+                <small title={moment(blockTime * 1000).format("L")}>
+                  {moment(blockTime * 1000).format("L")}
                 </small>
               </div>
               <div>{satToBTC(value)}</div>
