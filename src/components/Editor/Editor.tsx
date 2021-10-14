@@ -48,9 +48,9 @@ const Editor = ({ loading }: { loading: boolean }) => {
 
   if (!expanded)
     return (
-      <div className={styles.editTab} onClick={expandEditor}>
+      <div className={styles.editTab}>
         <div>
-          <button>►</button>
+          <button onClick={expandEditor} title="Edit wallet document">►</button>
         </div>
       </div>
     );
@@ -69,7 +69,7 @@ const Editor = ({ loading }: { loading: boolean }) => {
           onClick={hideEditor}
           className={styles.hideBtn}
         >
-          Hide
+          Close
         </button>
         <button
           disabled={loading}

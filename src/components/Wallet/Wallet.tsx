@@ -6,7 +6,8 @@ import Editor from "../Editor";
 import Viewer from "../Viewer";
 
 const parse = (data: string) => {
-  const lines = data.split("\n");
+  // remove comments and split by lines
+  const lines = data.split(/<!--[^(<!|>)]+-->/mg).join('').split("\n");
   const titlePrefix = /^#\s+/;
   const btcAddress = /^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$/;
   const emptyLine = /^\s*$/;
