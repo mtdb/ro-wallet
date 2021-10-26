@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { Context } from "../../App";
-import styles from "./Editor.module.css";
+import cs from "./Editor.module.css";
 
 interface IEvent {
   target: {
@@ -39,8 +39,8 @@ const Editor = ({ loading }: { loading: boolean }) => {
 
   if (!expanded && window.innerWidth < mobileWidth)
     return (
-      <div className={styles.container}>
-        <button onClick={expandEditor} className={styles.expandBtn}>
+      <div className={cs.container}>
+        <button onClick={expandEditor} className={cs.expandBtn}>
           Edit
         </button>
       </div>
@@ -48,7 +48,7 @@ const Editor = ({ loading }: { loading: boolean }) => {
 
   if (!expanded)
     return (
-      <div className={styles.editTab}>
+      <div className={cs.editTab}>
         <div>
           <button onClick={expandEditor} title="Edit wallet document">►</button>
         </div>
@@ -56,25 +56,25 @@ const Editor = ({ loading }: { loading: boolean }) => {
     );
 
   return (
-    <div className={styles.container}>
+    <div className={cs.container}>
       <textarea
-        className={styles.editor}
+        className={cs.editor}
         value={editorData}
         onChange={onChange}
         spellCheck="false"
       />
-      <div className={styles.actionBox}>
+      <div className={cs.actionBox}>
         <button
           disabled={loading}
           onClick={hideEditor}
-          className={styles.hideBtn}
+          className={cs.hideBtn}
         >
           Close
         </button>
         <button
           disabled={loading}
           onClick={saveChanges}
-          className={styles.saveBtn}
+          className={cs.saveBtn}
         >
           Save
         </button>
