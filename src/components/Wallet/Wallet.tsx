@@ -7,7 +7,10 @@ import Viewer from "../Viewer";
 
 const parse = (data: string) => {
   // remove comments and split by lines
-  const lines = data.split(/<!--[^(<!|>)]+-->/mg).join('').split("\n");
+  const lines = data
+    .split(/<!--[^(<!|>)]+-->/gm)
+    .join("")
+    .split("\n");
   const titlePrefix = /^#\s+/;
   const btcAddress = /^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$/;
   const emptyLine = /^\s*$/;
@@ -24,9 +27,21 @@ const parse = (data: string) => {
   return o;
 };
 
+const mobileWidth = 750;
+
 const Wallet = ({ params: { slug } }: { params: { slug?: string } }) => {
   const { data, wallets, setWallets, setPrice } = useContext(Context);
   const [loading, setLoading] = useState(false);
+  const [expanded, expand] = useState(
+    window.innerWidth <= mobileWidth
+      ? false
+      : !!localStorage.getItem("expanded")
+  );
+
+  const toggleEditor = () => {
+    expand(!expanded);
+    localStorage.setItem("expanded", !expanded ? "" : "true");
+  };
 
   useEffect(() => {
     const parsedData = parse(data);
@@ -44,8 +59,8 @@ const Wallet = ({ params: { slug } }: { params: { slug?: string } }) => {
 
   return (
     <div id="Wallet">
-      {slug ? <Details slug={slug} /> : <Viewer loading={loading} />}
-      <Editor loading={loading} />
+      {slug ? <Details slug={slug} /> : <Viewer loading={loading} toggleEditor={toggleEditor} />}
+      <Editor loading={loading} expanded={expanded} toggleEditor={toggleEditor} />
     </div>
   );
 };

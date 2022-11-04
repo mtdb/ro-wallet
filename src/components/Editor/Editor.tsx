@@ -10,50 +10,48 @@ interface IEvent {
 
 const mobileWidth = 750;
 
-const Editor = ({ loading }: { loading: boolean }) => {
+const Editor = ({
+  loading,
+  expanded,
+  toggleEditor,
+}: {
+  loading: boolean;
+  expanded: boolean;
+  toggleEditor: any;
+}) => {
   const { data, setData } = useContext(Context);
   const [editorData, updateEditor] = useState(data);
+  /*
   const [expanded, expand] = useState(
     window.innerWidth <= mobileWidth ? false : !!localStorage.getItem("expanded")
   );
+  */
 
   const onChange = ({ target: { value } }: IEvent) => {
     updateEditor(value);
   };
 
-  const hideEditor = () => {
-    expand(false);
-    localStorage.setItem("expanded", "");
-  };
-
-  const expandEditor = () => {
-    expand(true);
-    localStorage.setItem("expanded", "true");
-  };
-
   const saveChanges = async () => {
     localStorage.setItem("mdFile", editorData);
     setData(editorData);
-    if (window.innerWidth <= mobileWidth) hideEditor();
+    if (window.innerWidth <= mobileWidth) toggleEditor();
   };
 
   if (!expanded && window.innerWidth < mobileWidth)
     return (
       <div className={cs.container}>
-        <button onClick={expandEditor} className={cs.expandBtn}>
+        <button
+          onClick={() => {
+            console.log("expandEditor");
+          }}
+          className={cs.expandBtn}
+        >
           Edit
         </button>
       </div>
     );
 
-  if (!expanded)
-    return (
-      <div className={cs.editTab}>
-        <div>
-          <button onClick={expandEditor} title="Edit wallet document">►</button>
-        </div>
-      </div>
-    );
+  if (!expanded) return null;
 
   return (
     <div className={cs.container}>
@@ -66,16 +64,12 @@ const Editor = ({ loading }: { loading: boolean }) => {
       <div className={cs.actionBox}>
         <button
           disabled={loading}
-          onClick={hideEditor}
+          onClick={toggleEditor}
           className={cs.hideBtn}
         >
           Close
         </button>
-        <button
-          disabled={loading}
-          onClick={saveChanges}
-          className={cs.saveBtn}
-        >
+        <button disabled={loading} onClick={saveChanges} className={cs.saveBtn}>
           Save
         </button>
       </div>

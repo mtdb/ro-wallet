@@ -11,7 +11,13 @@ interface IBalance {
   [key: string]: number;
 }
 
-const Viewer = ({ loading }: { loading: boolean }) => {
+const Viewer = ({
+  loading,
+  toggleEditor,
+}: {
+  loading: boolean;
+  toggleEditor: any;
+}) => {
   const { wallets, btcPrice } = useContext(Context);
   const [totalBalance, setTotal] = useState(0);
   const [walletBalance, setBalances] = useState({} as IBalance);
@@ -54,7 +60,9 @@ const Viewer = ({ loading }: { loading: boolean }) => {
       <div className={cs.wallets}>
         <div className={cs.actions}>
           <h2>Wallets</h2>
-          <EditIcon />
+          <button className={cs.btnTransparent} onClick={toggleEditor}>
+            <EditIcon />
+          </button>
         </div>
         <div className={cs.walletList}>
           {wallets.map(({ title }) => (

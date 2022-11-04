@@ -1,3 +1,5 @@
 import cs from "./Spinner.module.css";
 
-export default () => <i className={cs.spinner} />;
+const Spinner = () => <i className={cs.spinner} />;
+
+export default Spinner;

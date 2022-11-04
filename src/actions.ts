@@ -21,7 +21,9 @@ const getWalletsData = async (data: IParsedData) => {
     data[key].forEach((address: string) => {
       promises.push(
         (async () => {
-          let response = await fetch(api.blockstream.address(address));
+          let response = await fetch(api.blockstream.address(address), {
+            // cache: "force-cache", // uncomment for development
+          });
           let json = await response.json();
           values[address] =
             json.chain_stats.funded_txo_sum - json.chain_stats.spent_txo_sum;
@@ -53,7 +55,9 @@ const getTransactionHistory = async (addresses: string[]) => {
     promises.push(
       (async () => {
         // returns up to 50 mempool transactions plus the first 25 confirmed transactions
-        const response = await fetch(api.blockstream.txs(address));
+        const response = await fetch(api.blockstream.txs(address), {
+          cache: "force-cache",
+        });
         const transactions = await response.json();
 
         transactions.forEach((transaction: ITransaction) => {
@@ -73,7 +77,9 @@ const getTransactionHistory = async (addresses: string[]) => {
             myTxs[transaction.txid] = true;
             txs.push({
               txid: transaction.txid,
-              blockTime: transaction.status.block_time,
+              confirmed: transaction.status.confirmed,
+              blockTime:
+                transaction.status.block_time || new Date().valueOf() / 1000, // !block_time => unconfirmed
               value,
               balance: 0,
             });

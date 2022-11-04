@@ -5,9 +5,20 @@
   margin: 0 auto;
 }
 
+.btnTransparent {
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+}
+
 .header {
   padding: 30px;
-  background-color: #516ecd;
+  background: rgb(99, 112, 240);
+  background: linear-gradient(
+    45deg,
+    rgba(99, 112, 240, 1) 0%,
+    rgba(108, 162, 234, 1) 100%
+  );
   color: white;
   position: relative;
 }
@@ -22,7 +33,7 @@
   padding: 0;
   margin: 8px 0;
   font-weight: 100;
-  font-size: 19px;
+  font-size: 1.2em;
 }
 
 .header .title {
@@ -67,7 +78,7 @@
 }
 
 .actions {
-  margin: 10px ​0 15px 0;
+  margin: 10px 0 15px 0;
   display: flex;
   justify-content: space-between;
 }
@@ -81,7 +92,7 @@
 .walletList > div {
   width: 100%;
   padding: 10px;
-  margin: 5px;
+  margin: 9px 5px;
   cursor: pointer;
   border: 1px solid rgb(231, 231, 231);
   border-radius: 4px;
@@ -104,25 +115,27 @@
 }
 
 .walletItem .title {
-  width: calc(60% - 50px);
+  width: calc(50% - 50px);
   padding-left: 15px;
 }
 
 .walletItem .title h3 {
   font-weight: 400;
   font-size: 14px;
-  margin: 0 0 6px 0;
+  margin: 4px 0 6px 0;
 }
 
 .walletItem .value {
+  align-items: center;
   color: #6464d4;
   display: block;
-  font-size: 1.2em;
+  display: flex;
+  font-size: 1.15em;
   font-weight: 500;
+  justify-content: end;
   letter-spacing: -1px;
-  margin: 5px 0 2px 0;
   text-align: right;
-  width: 40%;
+  width: 50%;
 }
 
 .walletItem small {
@@ -147,6 +160,7 @@
 .github svg {
   color: white;
   fill: currentColor;
+  margin-right: 6px;
 }
 
 @media screen and (max-width: 750px) {

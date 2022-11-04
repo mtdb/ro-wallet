@@ -5,6 +5,7 @@ import actions from "../../actions";
 import { Context } from "../../App";
 import { IHistoricalTransaction as ITransaction } from "../../store";
 import { satToBTC, satToUSD as s2u, slugify } from "../../utils";
+import arrow from "./arrow.svg";
 import cs from "./Details.module.css";
 
 const sumValues = (x: { value: number }[]) =>
@@ -51,15 +52,19 @@ const Details = ({ slug }: { slug: string }) => {
   return (
     <div className={cs.container}>
       <div className={cs.header}>
-        <Link href="/">
-          <h1>wallet.md</h1>
-        </Link>
-        <h2>{title}</h2>
-        <span>{satToBTC(total)}</span>
-        <small className={cs.usdAmount}>{satToUSD(total)}</small>
-        <Link href="/" className={cs.close}>
-          +
-        </Link>
+        <div>
+          <Link href="/">
+            <div className={cs.backButton}>
+              <img src={arrow} alt="back" />
+            </div>
+          </Link>
+        </div>
+        <div className={cs.balanceBox}>
+          <h2>{title}</h2>
+          <div className={cs.balance}>{satToBTC(total)}</div>
+          <small className={cs.usdAmount}>{satToUSD(total)}</small>
+        </div>
+        <div className={cs.headerFooter} />
       </div>
       <div className={cs.transactions}>
         <h2>Activity</h2>
@@ -70,16 +75,21 @@ const Details = ({ slug }: { slug: string }) => {
             {transactions.map(({ blockTime, txid, value, balance }) => (
               <li key={txid}>
                 <div>
-                  <span className={value > 0 ? cs.boxGreen : cs.boxRed}>
-                    {value > 0 ? "received" : "sent"}
-                  </span>
+                  {satToBTC(value)}
                   <br />
-                  <small title={moment(blockTime * 1000).format("L")}>
+                  <small
+                    className={cs.date}
+                    title={moment(blockTime * 1000).format("L")}
+                  >
                     {moment(blockTime * 1000).format("L")}
                   </small>
                 </div>
-                <div>{satToBTC(value)}</div>
-                <div>{satToBTC(balance)}</div>
+                <div className={cs.itemBalance}>
+                  <span>{satToBTC(balance)}</span>
+                  <span className={value > 0 ? cs.boxGreen : cs.boxRed}>
+                    {value > 0 ? "Received" : "Sent"}
+                  </span>
+                </div>
               </li>
             ))}
             {transactions.length === 0 && (
