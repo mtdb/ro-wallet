@@ -1,4 +1,4 @@
-# wallet.md
+# RO Wallet
 
 Read-only and offline Bitcoin wallet setting up by a simple .md file
 

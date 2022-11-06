@@ -44,7 +44,7 @@ const Viewer = ({
           <h1>My Wallet</h1>
           <a
             className={cs.github}
-            href="https://github.com/mtdb/wallet.md"
+            href="https://github.com/mtdb/ro-wallet"
             target="blank"
           >
             <GithubIcon />
