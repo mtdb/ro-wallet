@@ -8,8 +8,6 @@ interface IEvent {
   };
 }
 
-const mobileWidth = 750;
-
 const Editor = ({
   loading,
   expanded,
@@ -21,11 +19,6 @@ const Editor = ({
 }) => {
   const { data, setData } = useContext(Context);
   const [editorData, updateEditor] = useState(data);
-  /*
-  const [expanded, expand] = useState(
-    window.innerWidth <= mobileWidth ? false : !!localStorage.getItem("expanded")
-  );
-  */
 
   const onChange = ({ target: { value } }: IEvent) => {
     updateEditor(value);
@@ -34,22 +27,8 @@ const Editor = ({
   const saveChanges = async () => {
     localStorage.setItem("mdFile", editorData);
     setData(editorData);
-    if (window.innerWidth <= mobileWidth) toggleEditor();
+    toggleEditor();
   };
-
-  if (!expanded && window.innerWidth < mobileWidth)
-    return (
-      <div className={cs.container}>
-        <button
-          onClick={() => {
-            console.log("expandEditor");
-          }}
-          className={cs.expandBtn}
-        >
-          Edit
-        </button>
-      </div>
-    );
 
   if (!expanded) return null;
 
@@ -67,7 +46,7 @@ const Editor = ({
           onClick={toggleEditor}
           className={cs.hideBtn}
         >
-          Close
+          Hide
         </button>
         <button disabled={loading} onClick={saveChanges} className={cs.saveBtn}>
           Save

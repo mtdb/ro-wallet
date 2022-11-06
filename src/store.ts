@@ -11,7 +11,6 @@ export interface IWallet {
 }
 
 const example = `# Hot Wallet
-<!-- List of dummy addresses for a hot wallet -->
 3KDDVr4qL8tuzPuJxWtK1H5s3YQYDChXCg
 1E5vzYh9ct8VxByyejxvx7qmHh42G4q8j9
 15r86iZ5pKUJ7CngxucwHYJsSffPgsPymL
@@ -20,16 +19,12 @@ const example = `# Hot Wallet
 142cmpT8yFYg1YGRRgiCB37W4euinAWb21
 
 # Ledger
-<!--
-All the addresses were chosen randomly just for
-demonstration purposes
--->
 3KDDVr4qL8tuzPuJxWtK1H5s3YQYDChXCg
 1E5vzYh9ct8VxByyejxvx7qmHh42G4q8j9
 15r86iZ5pKUJ7CngxucwHYJsSffPgsPymL
 
 <!--
-This markdown document is stored locally, if you open it on a different device you will need to copy the content from it to see the wallets.
+This text document is stored locally, if you open this app on a different device you will need to copy the content to view the wallets.
 -->`;
 
 export interface ITransaction {

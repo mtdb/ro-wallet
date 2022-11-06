@@ -27,16 +27,10 @@ const parse = (data: string) => {
   return o;
 };
 
-const mobileWidth = 750;
-
 const Wallet = ({ params: { slug } }: { params: { slug?: string } }) => {
   const { data, wallets, setWallets, setPrice } = useContext(Context);
   const [loading, setLoading] = useState(false);
-  const [expanded, expand] = useState(
-    window.innerWidth <= mobileWidth
-      ? false
-      : !!localStorage.getItem("expanded")
-  );
+  const [expanded, expand] = useState(false);
 
   const toggleEditor = () => {
     expand(!expanded);
@@ -59,8 +53,16 @@ const Wallet = ({ params: { slug } }: { params: { slug?: string } }) => {
 
   return (
     <div id="Wallet">
-      {slug ? <Details slug={slug} /> : <Viewer loading={loading} toggleEditor={toggleEditor} />}
-      <Editor loading={loading} expanded={expanded} toggleEditor={toggleEditor} />
+      {slug ? (
+        <Details slug={slug} />
+      ) : (
+        <Viewer loading={loading} toggleEditor={toggleEditor} />
+      )}
+      <Editor
+        loading={loading}
+        expanded={expanded}
+        toggleEditor={toggleEditor}
+      />
     </div>
   );
 };
