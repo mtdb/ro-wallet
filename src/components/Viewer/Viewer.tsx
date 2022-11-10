@@ -10,6 +10,14 @@ import cs from "./Viewer.module.css";
 interface IBalance {
   [key: string]: number;
 }
+const colors = [
+  "#516ecd",
+  "#cdb051",
+  "#51cd72",
+  "#51accd",
+  "#cd7251",
+  "#6ecd51",
+];
 
 const Viewer = ({
   loading,
@@ -41,7 +49,7 @@ const Viewer = ({
     <div className={cs.container}>
       <div className={cs.header}>
         <div className={cs.title}>
-          <h1>My Wallet</h1>
+          <h1>Read-Only Wallet</h1>
           <a
             className={cs.github}
             href="https://github.com/mtdb/ro-wallet"
@@ -65,10 +73,15 @@ const Viewer = ({
           </button>
         </div>
         <div className={cs.walletList}>
-          {wallets.map(({ title }) => (
+          {wallets.map(({ title }, i) => (
             <Link key={title} href={`/${slugify(title)}`}>
               <div className={cs.walletItem}>
-                <div className={cs.badge}>{title[0]}</div>
+                <div
+                  className={cs.badge}
+                  style={{ backgroundColor: colors[i % 6] }}
+                >
+                  {title[0]}
+                </div>
                 <div className={cs.title}>
                   <h3>{title}</h3>
                   <small>≈ {satToUSD(walletBalance[title])}</small>
